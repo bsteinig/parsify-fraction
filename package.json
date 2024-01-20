@@ -1,0 +1,71 @@
+{
+    "name": "parsify-fraction",
+    "version": "1.0.1",
+    "description": "Parsify plugin converting decimals to fractions.",
+    "main": "dist/index.js",
+    "module": "dist/index.esm.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist/**/*"
+    ],
+    "author": "Ben Steinig <ben@bensteinig.com> (https://www.bensteinig.com)",
+    "bugs": {
+        "url": "https://github.com/parsify-dev/plugin-boilerplate/issues"
+    },
+    "scripts": {
+        "prebuild": "del-cli dist",
+        "esm": "tsc --module esnext && cpy dist/index.js dist --rename index.esm.js",
+        "cjs": "tsc --module commonjs",
+        "build": "npm run esm && npm run cjs",
+        "test": "ava",
+        "prepublishOnly": "npm run build"
+    },
+    "engines": {
+        "node": ">=10"
+    },
+    "license": "MIT",
+    "repository": "parsify-dev/plugin-boilerplate",
+    "homepage": "https://github.com/parsify-dev/plugin-boilerplate",
+    "keywords": [
+        "parsify",
+        "parsify-plugin",
+        "plugin",
+        "expression-parser",
+        "parser",
+        "expression"
+    ],
+    "devDependencies": {
+        "@sindresorhus/tsconfig": "^2.0.0",
+        "@types/node": "^16.11.6",
+        "ava": "^3.15.0",
+        "coveralls": "^3.1.1",
+        "cpy-cli": "^3.1.1",
+        "del-cli": "^4.0.1",
+        "ts-node": "^10.4.0",
+        "typescript": "^4.4.4"
+    },
+    "sideEffects": false,
+    "ava": {
+        "extensions": {
+            "ts": "module"
+        },
+        "nonSemVerExperiments": {
+            "configurableModuleFormat": true
+        },
+        "nodeArguments": [
+            "--loader=ts-node/esm"
+        ]
+    },
+    "xo": {
+        "ignores": [
+            "test.ts"
+        ],
+        "rules": {
+            "node/prefer-global/process": "off"
+        }
+    },
+    "dependencies": {
+        "@parsify/core": "^1.0.0",
+        "fraction.js": "^4.3.7"
+    }
+}
