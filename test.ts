@@ -1,21 +1,15 @@
 import test from 'ava';
-
-import parsifyExamplePlugin from './src';
-
-const mockedUtils = {
-	scope: new Map(),
-	fetcher: (a : any, b : any) => Promise.resolve(a + b),
-}
+import Parsify from '@parsify/core';
+import parsifyFractionsPlugin from './src/index';
 
 test('general', async t => {
-	t.is(await parsifyExamplePlugin(mockedUtils)('hello'), 'hello, world!');
-});
+	const parsify = new Parsify([
+		parsifyFractionsPlugin()
+	]);
 
-test('custom function', async t => {
-	await parsifyExamplePlugin(mockedUtils)('foo');
-	t.truthy(mockedUtils.scope.get('toUpperCase'));
-});
-
-test('if an error occurs, just output the expression', async t => {
-	t.is(await parsifyExamplePlugin(mockedUtils)('foo / bar'), 'foo / bar');
+	t.not(await parsify.parse('0.375 to frac'), '3/8');
+	t.is(await parsify.parse('.325 to frac'), '13/40');
+	t.is(await parsify.parse('.325        to          frac'), '13/40');
+	t.is(await parsify.parse('12.2222222 to fraction '), '12 2/9');
+	t.is(await parsify.parse('12tofrac'), '12tofrac');
 });
